@@ -1,0 +1,50 @@
+# Web 框架
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+
+# 数据验证
+pydantic==2.12.4
+pydantic-settings==2.1.0
+
+# 环境变量
+python-dotenv==1.0.0
+
+# HTTP 客户端
+httpx==0.26.0
+aiohttp==3.9.1
+# Token 计数
+tiktoken==0.5.2
+# 日志
+loguru==0.7.2
+
+# 测试
+pytest==7.4.4
+pytest-asyncio==0.23.4
+requests==2.31.0
+
+
+# 数据库（✅ 使用 databases）
+databases[postgresql]==0.9.0    # 🆕 异步数据库适配器
+psycopg2-binary==2.9.9          # ✅ PostgreSQL 驱动
+sqlalchemy==2.0.25              # ✅ ORM（用于类型定义）
+
+# 向量数据库
+pgvector==0.2.4                 # ✅ PostgreSQL 向量扩展
+
+
+# PDF 处理
+PyPDF2==3.0.1                # 🆕 PDF 解析
+pdfplumber==0.10.3           # 🆕 PDF 高级解析（可选）
+
+# 文本分块
+langchain-text-splitters==1.0.0  # 🆕 文本分块
+
+# PDF 处理
+PyPDF2==3.0.1                # PDF 解析
+pdfplumber==0.10.3           # PDF 高级解析（可选，更强大）
+python-magic==0.4.27         # 文件类型检测（可选）
+
+python-dateutil==2.9.0.post0
+python-docx==1.1.0
+python-jose==3.3.0
+python-multipart==0.0.6

@@ -1,0 +1,161 @@
+[33mcommit 272c5019eda6c59f9b2fd2783826094880b33657[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: lishixian2011011 <lishixian2011011@gmail.com>
+Date:   Thu Nov 20 23:10:50 2025 +0800
+
+    Remove large file
+
+ ai-chat-app-v2.tar | Bin [31m306278912[m -> [32m0[m bytes
+ 1 file changed, 0 insertions(+), 0 deletions(-)
+
+[33mcommit d8f97bced6261a146bd5b0c5e481a058e4f9febd[m
+Author: lishixian2011011 <lishixian2011011@gmail.com>
+Date:   Thu Nov 20 22:55:05 2025 +0800
+
+    Initial commit
+
+ .gitignore                                         |    45 [32m+[m
+ .prettierrc                                        |     8 [32m+[m
+ Dockerfile                                         |    94 [32m+[m
+ README.md                                          |    36 [32m+[m
+ ai-chat-app-v2.tar                                 |   Bin [31m0[m -> [32m306278912[m bytes
+ app/api/auth/[...nextauth]/route.js                |   174 [32m+[m
+ app/api/auth/register/route.js                     |   139 [32m+[m
+ app/api/chat-pdf/route.js                          |   554 [32m+[m
+ app/api/chat-web-search/route.js                   |   468 [32m+[m
+ app/api/chat/route.js                              |   371 [32m+[m
+ app/api/conversations/[id]/messages/route.js       |   272 [32m+[m
+ app/api/conversations/[id]/route.js                |   213 [32m+[m
+ app/api/conversations/[id]/title/route.js          |   171 [32m+[m
+ app/api/conversations/route.js                     |   228 [32m+[m
+ app/api/files/[...path]/route.js                   |    56 [32m+[m
+ app/api/messages/[id]/route.js                     |   427 [32m+[m
+ app/api/pdf/chat/route.js                          |   196 [32m+[m
+ app/api/pdf/delete/route.js                        |    87 [32m+[m
+ app/api/pdf/list/route.js                          |    55 [32m+[m
+ app/api/pdf/status/route.js                        |    64 [32m+[m
+ app/api/pdf/upload-url/route.js                    |   129 [32m+[m
+ app/api/pdf/upload/route.js                        |   249 [32m+[m
+ app/api/test/route.js                              |    40 [32m+[m
+ app/api/upload/route.js                            |   180 [32m+[m
+ app/api/user/profile/route.js                      |   198 [32m+[m
+ app/chatpdf/page.js                                |  1206 [32m++[m
+ app/components/chat/ChatArea.js                    |   231 [32m+[m
+ app/components/chat/ChatLayout.js                  |   513 [32m+[m
+ app/components/chat/CitationCard.js                |   233 [32m+[m
+ app/components/chat/Header.js                      |   202 [32m+[m
+ app/components/chat/InputArea.js                   |   435 [32m+[m
+ app/components/chat/MessageContent.js              |   220 [32m+[m
+ app/components/chat/MessageItem.js                 |   279 [32m+[m
+ app/components/chat/Sidebar.js                     |   246 [32m+[m
+ app/favicon.ico                                    |   Bin [31m0[m -> [32m25931[m bytes
+ app/globals.css                                    |   230 [32m+[m
+ app/layout.js                                      |   117 [32m+[m
+ app/login/page.js                                  |   101 [32m+[m
+ app/page.js                                        |    69 [32m+[m
+ app/profile/page.js                                |   410 [32m+[m
+ app/register/page.js                               |   203 [32m+[m
+ components.json                                    |    22 [32m+[m
+ components/ui/avatar.jsx                           |    47 [32m+[m
+ components/ui/badge.jsx                            |    44 [32m+[m
+ components/ui/button.jsx                           |    56 [32m+[m
+ components/ui/card.jsx                             |   101 [32m+[m
+ components/ui/dialog.jsx                           |   137 [32m+[m
+ components/ui/dropdown-menu.jsx                    |   223 [32m+[m
+ components/ui/input.jsx                            |    24 [32m+[m
+ components/ui/label.jsx                            |    12 [32m+[m
+ components/ui/scroll-area.jsx                      |    51 [32m+[m
+ components/ui/separator.jsx                        |    27 [32m+[m
+ components/ui/textarea.jsx                         |    20 [32m+[m
+ components/ui/tooltip.jsx                          |    55 [32m+[m
+ docker-compose.override.yml                        |    14 [32m+[m
+ docker-compose.yml                                 |    84 [32m+[m
+ eslint.config.mjs                                  |    31 [32m+[m
+ jsconfig.json                                      |     7 [32m+[m
+ lib/api-client.js                                  |   354 [32m+[m
+ lib/hooks/useConversations.js                      |   196 [32m+[m
+ lib/hooks/useMessages.js                           |   351 [32m+[m
+ lib/hooks/useWebSearch.js                          |    48 [32m+[m
+ lib/langchain/agent.js                             |   191 [32m+[m
+ lib/langchain/tools.js                             |    68 [32m+[m
+ lib/langchain/tools/bocha-search.js                |    92 [32m+[m
+ lib/log.js                                         |    48 [32m+[m
+ lib/mock-data.js                                   |   420 [32m+[m
+ lib/prisma.js                                      |    61 [32m+[m
+ lib/rag/chunking.js                                |   156 [32m+[m
+ lib/rag/embeddings.js                              |   260 [32m+[m
+ lib/rag/retrieval.js                               |   235 [32m+[m
+ lib/utils.js                                       |    94 [32m+[m
+ lib/welcome-message.js                             |   254 [32m+[m
+ load-env.js                                        |    86 [32m+[m
+ next.config.mjs                                    |    14 [32m+[m
+ package-lock.json                                  | 13554 [32m+++++++++++++++++++[m
+ package.json                                       |    71 [32m+[m
+ postcss.config.mjs                                 |     7 [32m+[m
+ prisma.config.ts                                   |    13 [32m+[m
+ .../20251110154043_20251110init/migration.sql      |   100 [32m+[m
+ .../migration.sql                                  |     3 [32m+[m
+ .../20251116060841_add_pdf_model/migration.sql     |    19 [32m+[m
+ .../20251117095110_add_rag_support/migration.sql   |    38 [32m+[m
+ prisma/migrations/create_vector_index.sql          |    23 [32m+[m
+ prisma/migrations/migration_lock.toml              |     3 [32m+[m
+ prisma/schema.prisma                               |   130 [32m+[m
+ public/file.svg                                    |     1 [32m+[m
+ public/globe.svg                                   |     1 [32m+[m
+ public/next.svg                                    |     1 [32m+[m
+ .../images/2025/11/1762842979821_kfhxrc.png        |   Bin [31m0[m -> [32m11216[m bytes
+ .../images/2025/11/1763449871101_d8d178.png        |   Bin [31m0[m -> [32m63625[m bytes
+ .../images/2025/11/1763452053816_j11jus.png        |   Bin [31m0[m -> [32m63625[m bytes
+ .../uploads/images/2025/11/1763479801943_cxx1x.png |   Bin [31m0[m -> [32m63625[m bytes
+ .../images/2025/11/1763502847767_un10oe.png        |   Bin [31m0[m -> [32m63625[m bytes
+ .../uploads/images/2025/11/1763504108491_j4dow.png |   Bin [31m0[m -> [32m63625[m bytes
+ .../uploads/images/2025/11/1763506154825_qm16g.png |   Bin [31m0[m -> [32m63625[m bytes
+ .../images/2025/11/1763506990248_spyfhj.png        |   Bin [31m0[m -> [32m63625[m bytes
+ .../uploads/images/2025/11/1763507171146_ajy2d.png |   Bin [31m0[m -> [32m63625[m bytes
+ .../uploads/images/2025/11/1763507955738_foo6a.png |   Bin [31m0[m -> [32m63625[m bytes
+ .../images/2025/11/1763507989991_8hw13f.png        |   Bin [31m0[m -> [32m63625[m bytes
+ .../images/2025/11/1763508021567_5agnbq.png        |   Bin [31m0[m -> [32m125535[m bytes
+ .../images/2025/11/1763509351884_pa7zir.png        |   Bin [31m0[m -> [32m125535[m bytes
+ .../uploads/images/2025/11/1763509397906_43793.png |   Bin [31m0[m -> [32m63625[m bytes
+ .../images/2025/11/1763513446065_kvwjnm.png        |   Bin [31m0[m -> [32m63625[m bytes
+ .../images/2025/11/1763513497090_co6cyl.png        |   Bin [31m0[m -> [32m125535[m bytes
+ .../uploads/images/2025/11/1763516174305_s7qd7.png |   Bin [31m0[m -> [32m63625[m bytes
+ .../images/2025/11/1763516200176_oj493p.png        |   Bin [31m0[m -> [32m125535[m bytes
+ .../uploads/images/2025/11/1763516488375_skvjs.png |   Bin [31m0[m -> [32m63625[m bytes
+ .../images/2025/11/1763516521271_6fezap.png        |   Bin [31m0[m -> [32m125535[m bytes
+ .../images/2025/11/1763516829295_ro6xnjl.png       |   Bin [31m0[m -> [32m63625[m bytes
+ .../uploads/images/2025/11/1763516855653_vq5yo.png |   Bin [31m0[m -> [32m125535[m bytes
+ .../uploads/images/2025/11/1763521294461_8pf3w.png |   Bin [31m0[m -> [32m63625[m bytes
+ .../images/2025/11/1763521326868_4eniri.png        |   Bin [31m0[m -> [32m63625[m bytes
+ .../uploads/images/2025/11/1763523291828_ja9qt.png |   Bin [31m0[m -> [32m63625[m bytes
+ .../uploads/images/2025/11/1763527158417_ysg1x.png |   Bin [31m0[m -> [32m63625[m bytes
+ .../images/2025/11/1763527174655_puqo7r.png        |   Bin [31m0[m -> [32m125535[m bytes
+ ...\260\346\226\271\346\241\210_1763393151105.pdf" |   Bin [31m0[m -> [32m410116[m bytes
+ ...\256\350\277\201\347\247\273_1763382858788.pdf" |   Bin [31m0[m -> [32m298637[m bytes
+ ...\256\350\277\201\347\247\273_1763385003959.pdf" |   Bin [31m0[m -> [32m298637[m bytes
+ ...\256\350\277\201\347\247\273_1763387849956.pdf" |   Bin [31m0[m -> [32m298637[m bytes
+ ...\256\350\277\201\347\247\273_1763517088096.pdf" |   Bin [31m0[m -> [32m298637[m bytes
+ ...6\226\207\346\241\243 (PRD)1_1763390412941.pdf" |   Bin [31m0[m -> [32m352080[m bytes
+ ...\216\344\273\243\347\240\201_1763393135124.pdf" |   Bin [31m0[m -> [32m431568[m bytes
+ ...\216\344\273\243\347\240\201_1763459907207.pdf" |   Bin [31m0[m -> [32m431568[m bytes
+ ...\216\344\273\243\347\240\201_1763516959403.pdf" |   Bin [31m0[m -> [32m431568[m bytes
+ ...\211\351\241\271\347\233\256_1763499172707.pdf" |   Bin [31m0[m -> [32m605151[m bytes
+ ...\211\351\241\271\347\233\256_1763513563473.pdf" |   Bin [31m0[m -> [32m605151[m bytes
+ ...\275\344\273\243\347\240\201_1763303066689.pdf" |   Bin [31m0[m -> [32m513699[m bytes
+ public/vercel.svg                                  |     1 [32m+[m
+ public/window.svg                                  |     1 [32m+[m
+ tailwind.config.js                                 |    77 [32m+[m
+ test-api.js                                        |   134 [32m+[m
+ .../images/2025/11/1762842979821_kfhxrc.png        |   Bin [31m0[m -> [32m11216[m bytes
+ .../images/2025/11/1763449871101_d8d178.png        |   Bin [31m0[m -> [32m63625[m bytes
+ .../images/2025/11/1763452053816_j11jus.png        |   Bin [31m0[m -> [32m63625[m bytes
+ .../images/2025/11/1763479801943_cxx1x.png         |   Bin [31m0[m -> [32m63625[m bytes
+ ...\260\346\226\271\346\241\210_1763393151105.pdf" |   Bin [31m0[m -> [32m410116[m bytes
+ ...\256\350\277\201\347\247\273_1763382858788.pdf" |   Bin [31m0[m -> [32m298637[m bytes
+ ...\256\350\277\201\347\247\273_1763385003959.pdf" |   Bin [31m0[m -> [32m298637[m bytes
+ ...\256\350\277\201\347\247\273_1763387849956.pdf" |   Bin [31m0[m -> [32m298637[m bytes
+ ...6\226\207\346\241\243 (PRD)1_1763390412941.pdf" |   Bin [31m0[m -> [32m352080[m bytes
+ ...\216\344\273\243\347\240\201_1763393135124.pdf" |   Bin [31m0[m -> [32m431568[m bytes
+ ...\216\344\273\243\347\240\201_1763459907207.pdf" |   Bin [31m0[m -> [32m431568[m bytes
+ ...\211\351\241\271\347\233\256_1763488084560.pdf" |   Bin [31m0[m -> [32m605151[m bytes
+ ...\275\344\273\243\347\240\201_1763303066689.pdf" |   Bin [31m0[m -> [32m513699[m bytes
+ 145 files changed, 27209 insertions(+)

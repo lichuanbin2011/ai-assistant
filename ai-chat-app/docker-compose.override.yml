@@ -1,0 +1,14 @@
+# docker-compose.override.yml
+version: '3.8'
+
+services:
+  app:
+    environment:
+      # 启用调试日志
+      - LOG_LEVEL=debug
+      - DEBUG=*
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "100m"
+        max-file: "5"

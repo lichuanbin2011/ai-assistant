@@ -1,0 +1,24 @@
+# Web 框架
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+
+# OpenAI SDK（支持 OpenRouter）
+openai==1.12.0
+
+# 数据验证
+pydantic==2.6.0
+pydantic-settings==2.1.0
+
+# 环境变量
+python-dotenv==1.0.0
+
+# HTTP 客户端
+httpx==0.26.0
+
+# 日志
+loguru==0.7.2
+
+# 测试
+pytest==7.4.4
+pytest-asyncio==0.23.4
+requests==2.31.0

@@ -1,0 +1,136 @@
+version: '3.8'
+
+# ============================================================================
+# 服务定义
+# ============================================================================
+services:
+  # PostgreSQL 数据库
+  postgres:
+    image: pgvector/pgvector:pg18
+    
+    container_name: ai-chat-db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: li2523323
+      POSTGRES_DB: ai_chat
+      POSTGRES_INITDB_ARGS: "-E UTF8 --locale=C"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql  # 改这里，去掉 /data
+    # 临时注释健康检查
+    # healthcheck:
+    #   test: ["CMD-SHELL", "pg_isready -U postgres -d ai_chat"]
+    #   interval: 10s
+    #   timeout: 5s
+    #   retries: 5
+    networks:
+      - ai-network
+
+
+  # ==========================================================================
+  # RAG Service (如果有)
+  # ==========================================================================
+  rag-service:
+    build:
+      context: ./rag-service
+      dockerfile: Dockerfile
+    image: rag-service:latest
+    container_name: rag-service
+    ports:
+      - "8001:8001"
+    env_file:
+      - ./rag-service/.env
+    volumes:
+      - ./rag-service/logs:/app/logs
+    networks:
+      - ai-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # ==========================================================================
+  # LLM Service (FastAPI 后端)
+  # ==========================================================================
+  llm-service:
+    build:
+      context: ./llm-service
+      dockerfile: Dockerfile
+    image: llm-service:latest
+    container_name: llm-service
+    ports:
+      - "8002:8002"
+    env_file:
+      - ./llm-service/.env
+    volumes:
+      - ./llm-service/logs:/app/logs
+    networks:
+      - ai-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8002/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+  # ==========================================================================
+  # Next.js 前端
+  # ==========================================================================
+  ai-chat-app:
+    build:
+      context: ./ai-chat-app
+      dockerfile: Dockerfile
+    image: ai-chat-app:latest
+    container_name: ai-chat-app
+    ports:
+      - "3000:3000"
+    environment:
+      # 使用服务名作为主机名
+      - LLM_SERVICE_URL=http://llm-service:8002
+      # ✅ 如果 LLM Service 需要调用 RAG Service
+      - RAG_SERVICE_URL=http://rag-service:8001
+      - DATABASE_URL=${DATABASE_URL}
+      - NEXTAUTH_SECRET=${NEXTAUTH_SECRET}
+      - NEXTAUTH_URL=http://localhost:3000
+      - NODE_ENV=production
+    volumes:
+      - ./ai-chat-app/public:/app/public
+      - ./ai-chat-app/prisma:/app/prisma
+          # 关键修改：挂载到宿主机目录，方便调试
+      - ./public/uploads:/app/public/uploads  # 改为相对路径
+    networks:
+      - ai-network
+
+    depends_on:  # 【修改】统一使用对象格式
+      postgres:
+        condition: service_started  # 【修改】只等待启动，不等待健康检查
+      llm-service:
+        condition: service_healthy
+      rag-service:
+        condition: service_healthy  # ✅ 等待 RAG Service 健康
+
+    restart: unless-stopped
+
+# ============================================================================
+# 网络定义
+# ============================================================================
+networks:
+  ai-network:
+    driver: bridge
+
+# ============================================================================
+# 卷定义（可选）
+# ============================================================================
+volumes:
+  logs:
+    driver: local
+  postgres_data:
+    driver: local
+  uploads:  #  添加 uploads volume
+    driver: local

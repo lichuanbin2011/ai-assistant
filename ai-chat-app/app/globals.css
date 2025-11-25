@@ -1,0 +1,230 @@
+/**
+ * ============================================================================
+ * 全局样式文件 (app/globals.css)
+ * ============================================================================
+ * 
+ * 文件作用：
+ *   定义全局 CSS 变量、主题颜色、自定义样式和动画
+ * 
+ * 主要功能：
+ *   1. 引入 Tailwind CSS 基础样式
+ *   2. 定义 CSS 变量（支持亮色/暗色主题）
+ *   3. 自定义滚动条样式
+ *   4. 消息淡入动画
+ *   5. Markdown 内容样式
+ * 
+ * 技术栈：
+ *   - Tailwind CSS（工具类样式）
+ *   - CSS Variables（主题变量）
+ *   - CSS Animations（动画效果）
+ * 
+ * ============================================================================
+ */
+
+/* 引入 Tailwind CSS 的三个核心层 */
+@tailwind base;        /* 基础样式（重置、默认样式） */
+@tailwind components;  /* 组件样式 */
+@tailwind utilities;   /* 工具类样式 */
+
+/**
+ * ----------------------------------------------------------------------------
+ * 主题颜色变量定义
+ * ----------------------------------------------------------------------------
+ * 
+ * 作用：定义全局 CSS 变量，支持亮色和暗色主题
+ * 格式：HSL 颜色值（色相 饱和度% 亮度%）
+ * 使用：hsl(var(--primary))
+ */
+@layer base {
+  /* 亮色主题（默认） */
+  :root {
+    --background: 0 0% 100%;              /* 背景色：白色 */
+    --foreground: 222.2 84% 4.9%;         /* 前景色：深蓝黑 */
+    --card: 0 0% 100%;                    /* 卡片背景：白色 */
+    --card-foreground: 222.2 84% 4.9%;    /* 卡片文字：深蓝黑 */
+    --popover: 0 0% 100%;                 /* 弹出层背景：白色 */
+    --popover-foreground: 222.2 84% 4.9%; /* 弹出层文字：深蓝黑 */
+    --primary: 221.2 83.2% 53.3%;         /* 主色：蓝色 */
+    --primary-foreground: 210 40% 98%;    /* 主色文字：浅色 */
+    --secondary: 210 40% 96.1%;           /* 次要色：浅灰蓝 */
+    --secondary-foreground: 222.2 47.4% 11.2%;  /* 次要色文字：深色 */
+    --muted: 210 40% 96.1%;               /* 弱化色：浅灰 */
+    --muted-foreground: 215.4 16.3% 46.9%;      /* 弱化文字：中灰 */
+    --accent: 210 40% 96.1%;              /* 强调色：浅灰蓝 */
+    --accent-foreground: 222.2 47.4% 11.2%;     /* 强调文字：深色 */
+    --destructive: 0 84.2% 60.2%;         /* 危险色：红色 */
+    --destructive-foreground: 210 40% 98%;      /* 危险文字：浅色 */
+    --border: 214.3 31.8% 91.4%;          /* 边框色：浅灰 */
+    --input: 214.3 31.8% 91.4%;           /* 输入框边框：浅灰 */
+    --ring: 221.2 83.2% 53.3%;            /* 聚焦环：蓝色 */
+    --radius: 0.5rem;                     /* 圆角半径：8px */
+    
+    /* 自定义颜色（项目特定） */
+    --bg-main: 0 0% 100%;                 /* 主背景：白色 */
+    --bg-sidebar: 210 20% 98%;            /* 侧边栏背景：浅灰蓝 */
+    --bg-user-message: 214 100% 97%;      /* 用户消息背景：浅蓝 */
+    --bg-ai-message: 0 0% 100%;           /* AI消息背景：白色 */
+    --text-primary: 222.2 47.4% 11.2%;    /* 主文字：深色 */
+    --text-secondary: 215.4 16.3% 46.9%;  /* 次要文字：中灰 */
+    --text-muted: 220 8.9% 46.1%;         /* 弱化文字：浅灰 */
+  }
+
+  /* 暗色主题 */
+  .dark {
+    --background: 222.2 84% 4.9%;         /* 背景色：深蓝黑 */
+    --foreground: 210 40% 98%;            /* 前景色：浅色 */
+    --card: 222.2 84% 4.9%;               /* 卡片背景：深色 */
+    --card-foreground: 210 40% 98%;       /* 卡片文字：浅色 */
+    --popover: 222.2 84% 4.9%;            /* 弹出层背景：深色 */
+    --popover-foreground: 210 40% 98%;    /* 弹出层文字：浅色 */
+    --primary: 217.2 91.2% 59.8%;         /* 主色：亮蓝 */
+    --primary-foreground: 222.2 47.4% 11.2%;    /* 主色文字：深色 */
+    --secondary: 217.2 32.6% 17.5%;       /* 次要色：深蓝灰 */
+    --secondary-foreground: 210 40% 98%;  /* 次要色文字：浅色 */
+    --muted: 217.2 32.6% 17.5%;           /* 弱化色：深灰 */
+    --muted-foreground: 215 20.2% 65.1%;  /* 弱化文字：中灰 */
+    --accent: 217.2 32.6% 17.5%;          /* 强调色：深蓝灰 */
+    --accent-foreground: 210 40% 98%;     /* 强调文字：浅色 */
+    --destructive: 0 62.8% 30.6%;         /* 危险色：暗红 */
+    --destructive-foreground: 210 40% 98%;      /* 危险文字：浅色 */
+    --border: 217.2 32.6% 17.5%;          /* 边框色：深灰 */
+    --input: 217.2 32.6% 17.5%;           /* 输入框边框：深灰 */
+    --ring: 224.3 76.3% 48%;              /* 聚焦环：蓝色 */
+  }
+}
+
+/**
+ * ----------------------------------------------------------------------------
+ * 基础样式重置
+ * ----------------------------------------------------------------------------
+ */
+@layer base {
+  /* 所有元素的边框颜色使用 CSS 变量 */
+  * {
+    /* 不要使用 @apply border-border，直接使用 CSS 变量 */
+    border-color: hsl(var(--border));
+  }
+  
+  /* body 全局样式 */
+  body {
+    background-color: hsl(var(--background));  /* 背景色 */
+    color: hsl(var(--foreground));             /* 文字颜色 */
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;  /* 系统字体 */
+  }
+}
+
+/**
+ * ----------------------------------------------------------------------------
+ * 自定义滚动条样式
+ * ----------------------------------------------------------------------------
+ * 
+ * 使用：添加 .custom-scrollbar 类
+ * 效果：细窄的灰色滚动条
+ */
+/* 自定义滚动条 */
+/* 自定义滚动条样式 */
+.custom-scrollbar {
+  overflow-y: auto; /* 启用垂直滚动 */
+  scrollbar-width: thin; /* Firefox 滚动条宽度 */
+}
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px; /* Chrome 滚动条宽度 */
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;  /* 滚动条轨道透明 */
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #d1d5db; /* 滚动条颜色：灰色 */
+  border-radius: 3px;  /* 圆角 */
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #9ca3af;  /* 悬停时颜色：深灰 */
+}
+
+
+/**
+ * ----------------------------------------------------------------------------
+ * 消息淡入动画
+ * ----------------------------------------------------------------------------
+ * 
+ * 使用：添加 .message-fade-in 类
+ * 效果：消息从下方淡入（0.3秒）
+ */
+/* 消息动画 */
+@keyframes fadeIn {
+  from {
+    opacity: 0;                /* 初始透明 */
+    transform: translateY(10px);  /* 向下偏移 10px */
+  }
+  to {
+    opacity: 1;                /* 完全不透明 */
+    transform: translateY(0);  /* 回到原位 */
+  }
+}
+
+.message-fade-in {
+  animation: fadeIn 0.3s ease-out;  /* 应用动画：0.3秒，缓出 */
+}
+
+/**
+ * ----------------------------------------------------------------------------
+ * Markdown 内容样式
+ * ----------------------------------------------------------------------------
+ * 
+ * 使用：在容器上添加 .markdown-content 类
+ * 作用：美化 AI 回复中的 Markdown 格式
+ */
+/* Markdown 内容样式 */
+.markdown-content pre {
+  @apply bg-gray-900 text-gray-100 rounded-lg p-4 overflow-x-auto my-4;  /* 代码块：深色背景 */
+}
+
+.markdown-content code {
+  @apply bg-gray-100 text-gray-800 px-1.5 py-0.5 rounded text-sm;  /* 行内代码：浅灰背景 */
+}
+
+.markdown-content pre code {
+  @apply bg-transparent text-gray-100 p-0;  /* 代码块内的代码：透明背景 */
+}
+
+.markdown-content h1 {
+  @apply text-2xl font-bold mt-6 mb-4;  /* 一级标题 */
+}
+
+.markdown-content h2 {
+  @apply text-xl font-bold mt-5 mb-3;  /* 二级标题 */
+}
+
+.markdown-content h3 {
+  @apply text-lg font-bold mt-4 mb-2;  /* 三级标题 */
+}
+
+.markdown-content ul,
+.markdown-content ol {
+  @apply ml-6 my-3;  /* 列表：左缩进 */
+}
+
+.markdown-content li {
+  @apply mb-1;  /* 列表项：底部间距 */
+}
+
+.markdown-content table {
+  @apply w-full border-collapse my-4;  /* 表格：全宽、边框合并 */
+}
+
+.markdown-content th,
+.markdown-content td {
+  @apply border border-gray-300 px-4 py-2;  /* 表格单元格：边框、内边距 */
+}
+
+.markdown-content th {
+  @apply bg-gray-100 font-semibold;  /* 表头：浅灰背景、加粗 */
+}
+
+.markdown-content blockquote {
+  @apply border-l-4 border-gray-300 pl-4 italic my-4;  /* 引用块：左边框、斜体 */
+}
+
+.markdown-content a {
+  @apply text-blue-600 hover:underline;  /* 链接：蓝色、悬停下划线 */
+}

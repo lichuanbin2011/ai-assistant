@@ -1,0 +1,130 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [vector]
+}
+
+model User {
+  id            String         @id @default(uuid())
+  email         String         @unique
+  passwordHash  String         @map("password_hash")
+  name          String?
+  avatarUrl     String?        @map("avatar_url")
+  role          String         @default("user")
+  createdAt     DateTime       @default(now()) @map("created_at")
+  updatedAt     DateTime       @updatedAt @map("updated_at")
+  conversations Conversation[]
+  pdfs          PDF[]
+  usageLogs     UsageLog[]
+
+  @@map("users")
+}
+
+model Conversation {
+  id        String    @id @default(uuid())
+  userId    String    @map("user_id")
+  title     String    @default("新对话")
+  model     String    @default("gpt-4o")
+  createdAt DateTime  @default(now()) @map("created_at")
+  updatedAt DateTime  @updatedAt @map("updated_at")
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  messages  Message[]
+
+  @@index([userId])
+  @@index([updatedAt])
+  @@map("conversations")
+}
+
+model Message {
+  id             String       @id @default(uuid())
+  conversationId String       @map("conversation_id")
+  role           String
+  content        String
+  images         Json?
+  model          String?
+  tokensUsed     Int?         @map("tokens_used")
+  createdAt      DateTime     @default(now()) @map("created_at")
+  citations      Json?
+  isWebSearch    Boolean      @default(false) @map("is_web_search")
+  conversation   Conversation @relation(fields: [conversationId], references: [id], onDelete: Cascade)
+
+  @@index([conversationId])
+  @@index([createdAt])
+  @@map("messages")
+}
+
+model ModelConfig {
+  id             String   @id @default(uuid())
+  modelId        String   @unique @map("model_id")
+  displayName    String   @map("display_name")
+  provider       String?
+  supportsVision Boolean  @default(false) @map("supports_vision")
+  maxTokens      Int      @default(4096) @map("max_tokens")
+  isActive       Boolean  @default(true) @map("is_active")
+  sortOrder      Int      @default(0) @map("sort_order")
+  createdAt      DateTime @default(now()) @map("created_at")
+
+  @@map("model_configs")
+}
+
+model UsageLog {
+  id             String   @id @default(uuid())
+  userId         String   @map("user_id")
+  conversationId String?  @map("conversation_id")
+  model          String
+  tokensUsed     Int      @map("tokens_used")
+  cost           Decimal  @db.Decimal(10, 6)
+  createdAt      DateTime @default(now()) @map("created_at")
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([createdAt])
+  @@map("usage_logs")
+}
+
+model PDF {
+  id           String          @id @default(cuid())
+  userId       String
+  name         String
+  fileName     String
+  filePath     String
+  size         Int
+  createdAt    DateTime        @default(now())
+  updatedAt    DateTime        @updatedAt
+  errorMessage String?
+  processedAt  DateTime?
+  status       String          @default("processing")
+  totalChunks  Int             @default(0)
+  totalPages   Int?
+  chunks       DocumentChunk[]
+  user         User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([status])
+  @@map("pdfs")
+}
+
+
+model DocumentChunk {
+  id         String                 @id @default(cuid())
+  pdfId      String                 @map("pdf_id")
+  chunkIndex Int                    @map("chunk_index")
+  content    String
+  embedding  Unsupported("vector(4096)")?
+  pageNumber Int?                   @map("page_number")
+  startChar  Int?                   @map("start_char")
+  endChar    Int?                   @map("end_char")
+  tokenCount Int?                   @map("token_count")
+  metadata   Json?
+  createdAt  DateTime               @default(now()) @map("created_at")
+  pdf        PDF                    @relation(fields: [pdfId], references: [id], onDelete: Cascade)
+
+  @@index([pdfId])
+  @@index([chunkIndex])
+  @@map("document_chunks")
+}
